@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="Button Icons">
+    <file>../assets/color.png</file>
+    <file>../assets/trashCan.png</file>
+  </qresource>
+</RCC>
