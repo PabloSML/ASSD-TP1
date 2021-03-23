@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9b17bf25-e5bb-415f-bf78-3b84429367b6" name="Default Changelist" comment="" />
+    <list default="true" id="9b17bf25-e5bb-415f-bf78-3b84429367b6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/backend/Filter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/Signal.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/Signal.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,6 +30,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -41,7 +46,7 @@
       <updated>1616167284252</updated>
       <workItem from="1616167286319" duration="6000" />
       <workItem from="1616167343162" duration="448000" />
-      <workItem from="1616422809507" duration="10357000" />
+      <workItem from="1616422809507" duration="14876000" />
     </task>
     <task id="LOCAL-00001" summary="Empezado Signal, hecho Analogswitch y SampleAndHold (Backend)">
       <created>1616447443158</created>
@@ -50,7 +55,14 @@
       <option name="project" value="LOCAL" />
       <updated>1616447443158</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="empty files">
+      <created>1616447577285</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1616447577285</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -68,7 +80,9 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Empezado Signal, hecho Analogswitch y SampleAndHold (Backend)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Empezado Signal, hecho Analogswitch y SampleAndHold (Backend)" />
+    <MESSAGE value="empty files" />
+    <option name="LAST_COMMIT_MESSAGE" value="empty files" />
   </component>
 </project>
