@@ -3,10 +3,13 @@ import scipy.signal as ss
 
 class Signal():
 
-    def __init__(self, tValues=None, yValues=None, frequency_hz=None):
-        self.tValues = tValues
-        self.yValues = yValues
-        self.frequency_hz = frequency_hz
+    def __init__(self, tValues=None, yValues=None, frequency_hz=None, signal=None):
+        if signal is not None:
+            self.duplicate_signal(signal)
+        else:
+            self.tValues = tValues
+            self.yValues = yValues
+            self.frequency_hz = frequency_hz
 
     def duplicate_signal(self, target_signal):
         self.tValues = target_signal.tValues.copy()
