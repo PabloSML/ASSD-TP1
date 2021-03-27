@@ -2,6 +2,7 @@ from src.backend.AnalogSwitch import AnalogSwitch
 from src.backend.SampleAndHold import SampleAndHold
 from src.backend.Filter import Filter
 from src.backend.Signal import Signal
+import matplotlib.pyplot as plt
 
 class Sampler:
 
@@ -12,7 +13,7 @@ class Sampler:
         self.sampleAndHold = SampleAndHold()
         self.antiAliasFilter = Filter()
         self.recoveryFilter = Filter()
-        self.blockChain = [self.analogSwitch, self.sampleAndHold, self.antiAliasFilter, self.recoveryFilter]
+        self.blockChain = [self.antiAliasFilter, self.analogSwitch, self.sampleAndHold, self.recoveryFilter]
         self.nodeList = [None, None, None, None, None]
 
     def set_input_signal(self, input_signal):
@@ -26,6 +27,13 @@ class Sampler:
             self.analogSwitch.set_sampling_signal(self.samplingSignal)
             self.sampleAndHold.set_sampling_signal(self.samplingSignal)
 
-    def activate_awesome_magical_signal_processing(self):
-        for index in range(0, len(self.blockChain)):
+    def activate_awesome_magical_signal_processing(self, skip_to_block=0):
+        for index in range(0 + skip_to_block, len(self.blockChain)):
             self.nodeList[index+1] = self.blockChain[index].process_signal(self.nodeList[index])
+
+        # for node in self.nodeList:
+        #     plt.plot(node.tValues, node.yValues)
+        #     plt.axis([1, 1+5e-4, -10, 10])
+        # plt.show()
+
+

@@ -1,15 +1,22 @@
 import numpy as np
 import scipy.signal as ss
+from scipy.fft import fft, fftfreq
+import matplotlib.pyplot as plt
 
 class Signal():
 
-    def __init__(self, tValues=None, yValues=None, frequency_hz=None, signal=None):
+    def __init__(self, tValues=None, yValues=None, frequency_hz=None, duty=None, description=None, signal=None):
         if signal is not None:
             self.duplicate_signal(signal)
         else:
             self.tValues = tValues
             self.yValues = yValues
             self.frequency_hz = frequency_hz
+            self.duty = duty
+            self.description = description
+
+            self.ampValues = None
+            self.fValues = None
 
     def duplicate_signal(self, target_signal):
         self.tValues = target_signal.tValues.copy()
@@ -24,8 +31,22 @@ class Signal():
 
         self.yValues = amp*np.cos(2 * np.pi * freq_hz * self.tValues)
         self.frequency_hz = freq_hz
+        self.description = "Cosine with amp = " + str(amp) + ", frec = " + str(freq_hz) + " and phase = " + str(phase) + "°"
 
-    def gen_square(self, duty, frec_hz):
+    def gen_square(self, duty, freq_hz):
 
-        self.yValues = 0.5 * ss.square(2 * np.pi * frec_hz * self.tValues, duty/100) + 0.5
-        self.frequency_hz = frec_hz
+        self.yValues = 0.5 * ss.square(2 * np.pi * freq_hz * self.tValues, duty/100) + 0.5
+        self.frequency_hz = freq_hz
+        self.duty = duty
+        self.description = "Square wave with frec = " + str(freq_hz) + " and duty = " + str(duty) + "%"
+
+    def analize_fft(self):
+
+        self.ampValues = fft(self.yValues)
+        T = np.abs(self.tValues[0] - self.tValues[1])
+        N = self.yValues.size
+        self.fValues = fftfreq(N, T)[:N // 2]
+
+        # plt.plot(self.fValues, 2.0 / N * np.abs(self.ampValues[0:N // 2]))
+        # plt.grid()
+        # plt.show()

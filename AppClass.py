@@ -6,6 +6,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
     NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 from src import Steps as Stepper
+from src.backend.Signal import Signal
+from src.backend.Sampler import Sampler
 import numpy as np
 
 class AppClass(QtWidgets.QWidget):
@@ -17,6 +19,19 @@ class AppClass(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.ui.GraphsWidget.setCurrentIndex(0)
         self.hideAll()
+
+        # Testing
+        test = Sampler()
+        tValues = np.linspace(0, 1.1, 100000)
+        cosin = Signal(tValues)
+        cosin.gen_cosine(5, 5e3)
+        cosin.analize_fft()
+
+        samp = Signal(tValues)
+        samp.gen_square(50, 50e3)
+        test.set_sampling_signal(samp)
+        test.set_input_signal(cosin)
+        test.activate_awesome_magical_signal_processing()
 
         # MY STUFF: cosas que necesito instanciar externas a Qt
         self.createBodePlotsCanvas()
