@@ -16,6 +16,23 @@ class Sampler:
         self.blockChain = [self.antiAliasFilter, self.analogSwitch, self.sampleAndHold, self.recoveryFilter]
         self.nodeList = [None, None, None, None, None]
 
+
+    def toggle_FAA_active(self):
+        self.antiAliasFilter.toggle_active()
+        self.activate_awesome_magical_signal_processing()
+
+    def toggle_switch_active(self):
+        self.analogSwitch.toggle_active()
+        self.activate_awesome_magical_signal_processing(skip_to_block=1)
+
+    def toggle_sh_active(self):
+        self.sampleAndHold.toggle_active()
+        self.activate_awesome_magical_signal_processing(skip_to_block=2)
+
+    def toggle_recov_active(self):
+        self.recoveryFilter.toggle_active()
+        self.activate_awesome_magical_signal_processing(skip_to_block=3)
+
     def set_input_signal(self, input_signal):
         if input_signal is not None:
             self.inputSignal.duplicate_signal(input_signal)
