@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="9b17bf25-e5bb-415f-bf78-3b84429367b6" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/backend/Sampler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/ASSD-TP1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ASSD-TP1.iml" afterDir="false" />
+    <list default="true" id="9b17bf25-e5bb-415f-bf78-3b84429367b6" name="Default Changelist" comment="ups">
+      <change afterPath="$PROJECT_DIR$/src/Steps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/Signal.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/Signal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/AppClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/designer/sampleGUI.ui" beforeDir="false" afterPath="$PROJECT_DIR$/designer/sampleGUI.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/sampleGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/sampleGUI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +59,12 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ASSD-TP1-master/GUI" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../FilterTool" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Philippe\PycharmProjects\ASSD-TP1\src\ui" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
