@@ -41,12 +41,12 @@ class AppClass(QtWidgets.QWidget):
                      'LA':  Stepper.step(),
                      'FR':  Stepper.step(),
                      'Xout':Stepper.step()}
-
+        self.dumpling = Sampler()
         self.showSpecs(self.ui.ComboBoxSignal.currentText())
 
         # EVENT HANDLER: acciones a partir de la UI
         self.ui.ComboBoxSignal.currentIndexChanged.connect(self.change_ParamInputs)
-        #self.ui.ButtonActualizar.clicked.connect()
+        self.ui.ButtonActualizar.clicked.connect(self.process_input)
         #layouEtapas
         self.ui.CheckBoxFAAon.stateChanged.connect(self.dict['FAA'].toggleBypass)
         self.ui.CheckBoxSHon.stateChanged.connect(self.dict['SH'].toggleBypass)
@@ -67,12 +67,64 @@ class AppClass(QtWidgets.QWidget):
         self.ui.ButtonColorFR.pressed.connect(lambda: self.selectColor('FR'))
         self.ui.ButtonColorXOUT.pressed.connect(lambda: self.selectColor('Xout'))
 
+    def process_input(self):
+        new_input = self.parse_input()
+        if new_input['msg'] != 'ok':
+            self.showmsg(new_input['msg'], 'red')
+        else:
+            new_sampling = self.parse_samp()
+            if new_sampling['msg'] != 'ok':
+                self.showmsg(new_sampling['msg'], 'red')
+            else:
+                self.process_signal(new_input, new_sampling)
+                self.manage_plot()
+
+    def process_signal(self, input, sample):
+        #tValues = np.linspace(0, 2/input['f'], 100000) #quiero 2 periodos con queso extra
+        self.dumpling.set_sampling_signal(sample)
+        self.dumpling.set_input_signal(input)
+        self.dumpling.activate_awesome_magical_signal_processing()
+
+    def parse_input(self):
+        """
+               Parsea los datos cargados, en caso de estar correctamente cargados,
+               crea un diccionario con el siguiente esqueleto:
+               filtro = {'Type':..., 'V':X.xx, 'f':X.xx, 'phi':X.xx, 'DC':X%, 'msg':...}
+        """
+        signal = {}
+        signal['type'] = self.ui.ComboBoxSignal.currentText()
+        signal['V'] = self.ui.SpinBoxVolt.value() * (1 if self.ui.ComboBoxVolt.currentText() == 'V' else 1e-3)
+        signal['f'] = self.ui.SpinBoxFreq.value() * (1 if self.ui.ComboBoxFreq.currentText() == 'Hz' else 1e3)
+        signal['phi'] = (self.ui.SpinBoxTheta.value() * (1 if self.ui.ComboBoxTheta.currentText() == 'rad' else 180/np.pi)) if signal['type'] != 'Cuadrada' else None
+        signal['DC'] = self.ui.SpinBoxDCinput.value() if signal['type'] == 'Cuadrada' else None
+        signal['msg'] = 'ok'
+
+        return signal
+
+    def parse_samp(self):
+        sample = {}
+
+        if self.ui.ComboBoxT.currentText() == 's':
+            multiplierT = 1
+        elif self.ui.ComboBoxT.currentText() == 'ms':
+            multiplierT = 1e-3
+        else: #caso 'us'
+            multiplierT = 1e-6
+
+        sample['T'] = self.ui.SpinBoxT.value() * multiplierT
+        sample['DC'] = self.ui.spinBoxDC.value()
+        sample['msg'] = 'ok'
+
+        return sample
+
     def change_ParamInputs(self):
         self.hideAll()
         signal = self.ui.ComboBoxSignal.currentText()
         self.showSpecs(signal)
+
     def manage_plot(self):
-        x = 1 # todo make me master
+        x = 1 # todo make me my master
+
     def createBodePlotsCanvas(self):
         # creo una figura por pestaña
         self.figure_osc = Figure()
@@ -102,9 +154,9 @@ class AppClass(QtWidgets.QWidget):
         # self.ui.labelV.setHidden(True)
         # self.ui.SpinBoxVolt.setHidden(True)
         # self.ui.ComboBoxVolt.setHidden(True)
-        # self.ui.labeltheta.setHidden(True)
-        # self.ui.SpinBoxTheta.setHidden(True)
-        # self.ui.ComboBoxTheta.setHidden(True)
+        self.ui.labeltheta.setHidden(True)
+        self.ui.SpinBoxTheta.setHidden(True)
+        self.ui.ComboBoxTheta.setHidden(True)
         self.ui.labelDCinput.setHidden(True)
         self.ui.SpinBoxDCinput.setHidden(True)
 
@@ -112,6 +164,10 @@ class AppClass(QtWidgets.QWidget):
         if type == 'Cuadrada':
             self.ui.labelDCinput.setHidden(False)
             self.ui.SpinBoxDCinput.setHidden(False)
+        else:
+            self.ui.labeltheta.setHidden(False)
+            self.ui.SpinBoxTheta.setHidden(False)
+            self.ui.ComboBoxTheta.setHidden(False)
 
     #def manage_plot(self):
 
@@ -122,6 +178,8 @@ class AppClass(QtWidgets.QWidget):
             self.dict[who].setColor(color)
             self.manage_plot()
 
+    def showmsg(self,string,color):
+        print(string)
 # ------------------------------------------------------------
 if __name__ == '__main__':
     MyFilterToolApp = QtWidgets.QApplication(sys.argv)
