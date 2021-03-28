@@ -19,17 +19,22 @@ class Signal():
             self.fValues = None
 
     def duplicate_signal(self, target_signal):
+
         self.tValues = target_signal.tValues.copy()
         self.yValues = target_signal.yValues.copy()
         self.frequency_hz = target_signal.frequency_hz
 
+    def set_time_values(self, new_tValues):
+        self.tValues = new_tValues.copy()
+
     def set_point_values(self, new_tValues, new_yValues):
+
         self.tValues = new_tValues.copy()
         self.yValues = new_yValues.copy()
 
     def gen_cosine(self, amp, freq_hz, phase=0):
 
-        self.yValues = amp*np.cos(2 * np.pi * freq_hz * self.tValues)
+        self.yValues = amp*np.cos(2 * np.pi * freq_hz * self.tValues + phase)
         self.frequency_hz = freq_hz
         self.description = "Cosine with amp = " + str(amp) + ", frec = " + str(freq_hz) + " and phase = " + str(phase) + "°"
 

@@ -21,17 +21,17 @@ class AppClass(QtWidgets.QWidget):
         self.hideAll()
 
         # Testing
-        test = Sampler()
-        tValues = np.linspace(0, 1.1, 100000)
-        cosin = Signal(tValues)
-        cosin.gen_cosine(5, 5e3)
-        cosin.analize_fft()
-
-        samp = Signal(tValues)
-        samp.gen_square(50, 50e3)
-        test.set_sampling_signal(samp)
-        test.set_input_signal(cosin)
-        test.activate_awesome_magical_signal_processing()
+        # test = Sampler()
+        # tValues = np.linspace(0, 1.1, 100000)
+        # cosin = Signal(tValues)
+        # cosin.gen_cosine(5, 5e3)
+        # cosin.analize_fft()
+        #
+        # samp = Signal(tValues)
+        # samp.gen_square(50, 50e3)
+        # test.set_sampling_signal(samp)
+        # test.set_input_signal(cosin)
+        # test.activate_awesome_magical_signal_processing()
 
         # MY STUFF: cosas que necesito instanciar externas a Qt
         self.createBodePlotsCanvas()
@@ -48,10 +48,10 @@ class AppClass(QtWidgets.QWidget):
         self.ui.ComboBoxSignal.currentIndexChanged.connect(self.change_ParamInputs)
         self.ui.ButtonActualizar.clicked.connect(self.process_input)
         #layouEtapas
-        self.ui.CheckBoxFAAon.stateChanged.connect(self.dict['FAA'].toggleBypass)
-        self.ui.CheckBoxSHon.stateChanged.connect(self.dict['SH'].toggleBypass)
-        self.ui.CheckBoxLAon.stateChanged.connect(self.dict['LA'].toggleBypass)
-        self.ui.CheckBoxFRon.stateChanged.connect(self.dict['FR'].toggleBypass)
+        # self.ui.CheckBoxFAAon.stateChanged.connect(self.dict['FAA'].toggleBypass) todo bypass fun
+        # self.ui.CheckBoxSHon.stateChanged.connect(self.dict['SH'].toggleBypass)
+        # self.ui.CheckBoxLAon.stateChanged.connect(self.dict['LA'].toggleBypass)
+        # self.ui.CheckBoxFRon.stateChanged.connect(self.dict['FR'].toggleBypass)
 
         self.ui.checkBoxXINdraw.stateChanged.connect(self.dict['Xin'].toggleDraw)
         self.ui.CheckBoxFAAdraw.stateChanged.connect(self.dict['FAA'].toggleDraw)
@@ -79,10 +79,9 @@ class AppClass(QtWidgets.QWidget):
                 self.process_signal(new_input, new_sampling)
                 self.manage_plot()
 
-    def process_signal(self, input, sample):
-        #tValues = np.linspace(0, 2/input['f'], 100000) #quiero 2 periodos con queso extra
-        self.dumpling.set_sampling_signal(sample)
-        self.dumpling.set_input_signal(input)
+    def process_signal(self, input_params, sample_params):
+        self.dumpling.set_input_signal(input_params)
+        self.dumpling.set_sampling_signal(sample_params)
         self.dumpling.activate_awesome_magical_signal_processing()
 
     def parse_input(self):
