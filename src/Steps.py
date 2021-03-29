@@ -1,19 +1,15 @@
 
-class step(object):
-    def __init__(self,name='', t=None, y=None, color=None):
-        super(step, self).__init__()
-        self.name = name
-        self.color = color
-        self.draw = False
+class plot_list_specs(object):
+    def __init__(self):
+        super(plot_list_specs, self).__init__()
+        self.all_together = [['Xin', None, False],['FAA', None, False],['SH', None, False],['LA', None, False],['FR', None, False]] #[Nombre,color,draw]
 # --------------------------------------------------------------
-    def makeMe(self, name, color):
-        self.name = name
-        self.color = color
-        self.draw = False
-        self.bypass = False
+    def setColor(self, who, color):
+        for i in range(len(self.all_together)):
+            if who == self.all_together[i][0]:
+                self.all_together[i][1] = color
 
-    def setColor(self, color):
-        self.color = color
-
-    def toggleDraw(self):
-        self.draw = not self.draw
+    def toggleDraw(self,who):
+        for i in range(len(self.all_together)):
+            if who == self.all_together[i][0]:
+                self.all_together[i][2] = not self.all_together[i][2]

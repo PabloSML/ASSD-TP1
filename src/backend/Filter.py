@@ -18,6 +18,8 @@ class Filter(Block):
         self.freqAtFirstMinAttWn1 = 2 * np.pi * 7500
         self.analogFilter = True
 
+        # self.num = 1
+        # self.den = 1
         self.num, self.den = ss.cheby2(self.filter_order1, self.minAttStopBand_dB1, self.freqAtFirstMinAttWn1,
                                          self.filterType,
                                          analog=self.analogFilter)

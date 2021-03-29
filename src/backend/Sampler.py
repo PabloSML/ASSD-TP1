@@ -17,7 +17,6 @@ class Sampler:
         self.blockChain = [self.antiAliasFilter, self.analogSwitch, self.sampleAndHold, self.recoveryFilter]
         self.nodeList = [None, None, None, None, None]
 
-
     def toggle_FAA_active(self):
         self.antiAliasFilter.toggle_active()
         self.activate_awesome_magical_signal_processing()
@@ -57,8 +56,9 @@ class Sampler:
         for index in range(0 + skip_to_block, len(self.blockChain)):
             self.nodeList[index+1] = self.blockChain[index].process_signal(self.nodeList[index])
 
-        for node in self.nodeList:
-            plt.plot(node.tValues, node.yValues)
-        plt.show()
+         # for node in self.nodeList:
+         #     plt.plot(node.tValues, node.yValues)
+         #     plt.axis([1, 1+5e-4, -10, 10])
+         # plt.show()
 
 

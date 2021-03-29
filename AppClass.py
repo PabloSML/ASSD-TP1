@@ -9,6 +9,7 @@ from src import Steps as Stepper
 from src.backend.Signal import Signal
 from src.backend.Sampler import Sampler
 import numpy as np
+import matplotlib.pyplot as plt
 
 class AppClass(QtWidgets.QWidget):
 
@@ -35,12 +36,7 @@ class AppClass(QtWidgets.QWidget):
 
         # MY STUFF: cosas que necesito instanciar externas a Qt
         self.createBodePlotsCanvas()
-        self.dict = {'Xin': Stepper.step(),
-                     'FAA': Stepper.step(),
-                     'SH':  Stepper.step(),
-                     'LA':  Stepper.step(),
-                     'FR':  Stepper.step(),
-                     'Xout':Stepper.step()}
+        self.plot_list = Stepper.plot_list_specs()
         self.dumpling = Sampler()
         self.showSpecs(self.ui.ComboBoxSignal.currentText())
 
@@ -48,24 +44,24 @@ class AppClass(QtWidgets.QWidget):
         self.ui.ComboBoxSignal.currentIndexChanged.connect(self.change_ParamInputs)
         self.ui.ButtonActualizar.clicked.connect(self.process_input)
         #layouEtapas
-        # self.ui.CheckBoxFAAon.stateChanged.connect(self.dict['FAA'].toggleBypass) todo bypass fun
-        # self.ui.CheckBoxSHon.stateChanged.connect(self.dict['SH'].toggleBypass)
-        # self.ui.CheckBoxLAon.stateChanged.connect(self.dict['LA'].toggleBypass)
-        # self.ui.CheckBoxFRon.stateChanged.connect(self.dict['FR'].toggleBypass)
+        self.ui.CheckBoxFAAon.stateChanged.connect(lambda: self.toggleBypass('FAA'))
+        self.ui.CheckBoxSHon.stateChanged.connect(lambda: self.toggleBypass('SH'))
+        self.ui.CheckBoxLAon.stateChanged.connect(lambda: self.toggleBypass('LA'))
+        self.ui.CheckBoxFRon.stateChanged.connect(lambda: self.toggleBypass('FR'))
 
-        self.ui.checkBoxXINdraw.stateChanged.connect(self.dict['Xin'].toggleDraw)
-        self.ui.CheckBoxFAAdraw.stateChanged.connect(self.dict['FAA'].toggleDraw)
-        self.ui.CheckBoxSHdraw.stateChanged.connect(self.dict['SH'].toggleDraw)
-        self.ui.CheckBoxLAdraw.stateChanged.connect(self.dict['LA'].toggleDraw)
-        self.ui.CheckBoxFRdraw.stateChanged.connect(self.dict['FR'].toggleDraw)
-        self.ui.CheckBoxXOUTdraw.stateChanged.connect(self.dict['Xout'].toggleDraw)
+        self.ui.checkBoxXINdraw.stateChanged.connect(lambda: self.toggleDraw('Xin'))
+        self.ui.CheckBoxFAAdraw.stateChanged.connect(lambda: self.toggleDraw('FAA'))
+        self.ui.CheckBoxSHdraw.stateChanged.connect(lambda: self.toggleDraw('SH'))
+        self.ui.CheckBoxLAdraw.stateChanged.connect(lambda: self.toggleDraw('LA'))
+        self.ui.CheckBoxFRdraw.stateChanged.connect(lambda: self.toggleDraw('FR'))
+#        self.ui.CheckBoxXOUTdraw.stateChanged.connect(lambda: self.dict['Xout'].toggleDraw)
 
         self.ui.ButtonColorXIN.pressed.connect(lambda: self.selectColor('Xin'))
         self.ui.ButtonColorFAA.pressed.connect(lambda: self.selectColor('FAA'))
         self.ui.ButtonColorSH.pressed.connect(lambda: self.selectColor('SH'))
         self.ui.ButtonColorLA.pressed.connect(lambda: self.selectColor('LA'))
         self.ui.ButtonColorFR.pressed.connect(lambda: self.selectColor('FR'))
-        self.ui.ButtonColorXOUT.pressed.connect(lambda: self.selectColor('Xout'))
+#        self.ui.ButtonColorXOUT.pressed.connect(lambda: self.selectColor('Xout'))
 
     def process_input(self):
         new_input = self.parse_input()
@@ -122,7 +118,36 @@ class AppClass(QtWidgets.QWidget):
         self.showSpecs(signal)
 
     def manage_plot(self):
-        x = 1 # todo make me my master
+        w = self.ui.GraphsWidget.currentWidget()
+        if w == self.ui.OscTab:
+            axes = self.axes_osc
+            canvas = self.canvas_osc
+            plotter = self.oscplot
+        else: #caso espectometro
+            axes = self.axes_esp
+            canvas = self.canvas_esp
+            plotter = self.espplot
+        axes.clear()
+        axes.grid(which='both')
+        plotter(axes, canvas)
+
+    def oscplot(self, axes, canvas):
+        temp_list = list(zip(self.plot_list.all_together,self.dumpling.nodeList)) #[(['name','color','draw'],Signal), ... ]
+        for s in temp_list:
+            if s[0][2]: #draw flag
+                if s[0][1] is not None: #color var
+                    axes.plot(s[1].tValues, s[1].yValues, label=s[1].description, color=self.formatColor(s[0][1]))
+                else:
+                    axes.plot(s[1].tValues, s[1].yValues, label=s[0][0])
+        axes.set_xlabel('Eje X')
+        axes.set_ylabel('Eje Y')
+        axes.legend(loc='best')
+
+        canvas.draw()
+
+    def espplot(self, axes, canvas):
+        pass
+
 
     def createBodePlotsCanvas(self):
         # creo una figura por pestaña
@@ -150,9 +175,9 @@ class AppClass(QtWidgets.QWidget):
         # self.ui.labelf.setHidden(True)
         # self.ui.SpinBoxFreq.setHidden(True)
         # self.ui.ComboBoxFreq.setHidden(True)
-        # self.ui.labelV.setHidden(True)
-        # self.ui.SpinBoxVolt.setHidden(True)
-        # self.ui.ComboBoxVolt.setHidden(True)
+        self.ui.labelV.setHidden(True)
+        self.ui.SpinBoxVolt.setHidden(True)
+        self.ui.ComboBoxVolt.setHidden(True)
         self.ui.labeltheta.setHidden(True)
         self.ui.SpinBoxTheta.setHidden(True)
         self.ui.ComboBoxTheta.setHidden(True)
@@ -164,6 +189,9 @@ class AppClass(QtWidgets.QWidget):
             self.ui.labelDCinput.setHidden(False)
             self.ui.SpinBoxDCinput.setHidden(False)
         else:
+            self.ui.labelV.setHidden(False)
+            self.ui.SpinBoxVolt.setHidden(False)
+            self.ui.ComboBoxVolt.setHidden(False)
             self.ui.labeltheta.setHidden(False)
             self.ui.SpinBoxTheta.setHidden(False)
             self.ui.ComboBoxTheta.setHidden(False)
@@ -174,7 +202,34 @@ class AppClass(QtWidgets.QWidget):
         colorDialog = QColorDialog()
         color = colorDialog.getColor()
         if color.isValid():
-            self.dict[who].setColor(color)
+            self.plot_list.setColor(who,color)
+            self.manage_plot()
+
+    def formatColor(self, Qolor):
+        Qolor = Qolor.getRgb()
+        R = Qolor[0] / 255.0
+        G = Qolor[1] / 255.0
+        B = Qolor[2] / 255.0
+        A = Qolor[3] / 255.0
+        newColor = (R, G, B, A)
+
+        return newColor
+
+    def toggleDraw(self,who):
+        self.plot_list.toggleDraw(who)
+        self.manage_plot()
+
+
+    def toggleBypass(self, who):
+        toggles = {
+            'FAA': self.dumpling.toggle_FAA_active,
+            'SH': self.dumpling.toggle_sh_active,
+            'LA': self.dumpling.toggle_switch_active,
+            'FR': self.dumpling.toggle_recov_active
+        }
+        if who in toggles.keys():
+            toggler = toggles[who]
+            toggler()
             self.manage_plot()
 
     def showmsg(self,string,color):
