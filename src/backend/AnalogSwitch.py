@@ -24,4 +24,5 @@ class AnalogSwitch(SignalControlled):
 
             # output_signal.set_point_values(out_tValues, out_yValues)
 
+        output_signal.analize_fft()
         return output_signal

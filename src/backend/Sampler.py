@@ -35,7 +35,7 @@ class Sampler:
 
     def set_input_signal(self, input_signal_params):
         if input_signal_params is not None:
-            temp_tValues = np.linspace(0, 2/input_signal_params['f'], 100000)
+            temp_tValues = np.linspace(0, 20/input_signal_params['f'], 100000)
             self.inputSignal.set_time_values(temp_tValues)
             self.samplingSignal.set_time_values(temp_tValues)
             if input_signal_params['type'] == 'Coseno':
