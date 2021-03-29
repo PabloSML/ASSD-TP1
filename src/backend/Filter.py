@@ -6,8 +6,10 @@ import numpy as np
 
 class Filter(Block):
 
-    def __init__(self):
+    def __init__(self, filterName):
         super().__init__()
+
+        self.filterName = filterName
 
         self.num = 1  # todo Ver que filtro aplicar
         self.den = 1
@@ -26,12 +28,13 @@ class Filter(Block):
 
     def process_signal(self, input_signal):
         output_signal = Signal()
-        output_signal.duplicate_signal(input_signal)
+        output_signal.set_point_values(input_signal.tValues, input_signal.yValues)
+        output_signal.description = 'Output FAA' if self.filterName is 'FAA' else 'Output FR/Xout'
 
         if self.isActive:
-            out_tValues, out_yValues, dump = ss.lsim((self.num, self.den),
+            output_signal.tValues, output_signal.yValues, dump = ss.lsim((self.num, self.den),
                                                       input_signal.yValues, input_signal.tValues)
                                                         # aplica filtro a señal todo transitorio?
-            output_signal.set_point_values(out_tValues, out_yValues)
+            # output_signal.set_point_values(out_tValues, out_yValues)
 
         return output_signal

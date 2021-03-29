@@ -23,6 +23,10 @@ class Signal():
         self.tValues = target_signal.tValues.copy()
         self.yValues = target_signal.yValues.copy()
         self.frequency_hz = target_signal.frequency_hz
+        self.duty = target_signal.duty
+        self.description = target_signal.description
+        self.ampValues = target_signal.ampValues.copy() if target_signal.ampValues is not None else None
+        self.fValues = target_signal.fValues.copy() if target_signal.fValues is not None else None
 
     def set_time_values(self, new_tValues):
         self.tValues = new_tValues.copy()
@@ -36,7 +40,7 @@ class Signal():
 
         self.yValues = amp*np.cos(2 * np.pi * freq_hz * self.tValues + phase)
         self.frequency_hz = freq_hz
-        self.description = "Cosine with amp = " + str(amp) + ", frec = " + str(freq_hz) + " and phase = " + str(phase) + "°"
+        self.description = str(amp) + ".cos(2pi." + str(int(freq_hz)) + "t + " + str(phase) + "rad/s)"
 
     def gen_square(self, duty, freq_hz):
 

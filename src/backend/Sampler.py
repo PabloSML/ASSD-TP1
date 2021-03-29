@@ -12,8 +12,8 @@ class Sampler:
         self.samplingSignal = Signal()
         self.analogSwitch = AnalogSwitch()
         self.sampleAndHold = SampleAndHold()
-        self.antiAliasFilter = Filter()
-        self.recoveryFilter = Filter()
+        self.antiAliasFilter = Filter('FAA')
+        self.recoveryFilter = Filter('FR')
         self.blockChain = [self.antiAliasFilter, self.analogSwitch, self.sampleAndHold, self.recoveryFilter]
         self.nodeList = [None, None, None, None, None]
 

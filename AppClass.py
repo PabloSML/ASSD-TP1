@@ -138,7 +138,7 @@ class AppClass(QtWidgets.QWidget):
                 if s[0][1] is not None: #color var
                     axes.plot(s[1].tValues, s[1].yValues, label=s[1].description, color=self.formatColor(s[0][1]))
                 else:
-                    axes.plot(s[1].tValues, s[1].yValues, label=s[0][0])
+                    axes.plot(s[1].tValues, s[1].yValues, label=s[1].description)
         axes.set_xlabel('Eje X')
         axes.set_ylabel('Eje Y')
         axes.legend(loc='best')
