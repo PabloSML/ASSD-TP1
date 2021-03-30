@@ -2,7 +2,6 @@ from src.backend.Block import Block
 from src.backend.Signal import Signal
 import scipy.signal as ss
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class Filter(Block):
@@ -21,20 +20,20 @@ class Filter(Block):
         self.freqAtFirstMinAttWn1 = 2 * np.pi * 7500
         self.analogFilter = True
 
-        self.num = np.array([0.0517])
-        self.den = np.array([1.05271e-43, 4.16957e-38, 1.9946e-32,
-                            4.90875e-27, 1.10912e-21, 1.65068e-16, 1.92125e-11, 1.3854e-6, 0.0517])
+        # self.num = np.array([0.0517])
+        # self.den = np.array([1.05271e-43, 4.16957e-38, 1.9946e-32,
+        #                     4.90875e-27, 1.10912e-21, 1.65068e-16, 1.92125e-11, 1.3854e-6, 0.0517])
 
-        # self.num, self.den = ss.cheby2(self.filter_order1, self.minAttStopBand_dB1, self.freqAtFirstMinAttWn1,
-        #                                  self.filterType,
-        #                                  analog=self.analogFilter)
+        self.num, self.den = ss.cheby2(self.filter_order1, self.minAttStopBand_dB1, self.freqAtFirstMinAttWn1,
+                                         self.filterType,
+                                         analog=self.analogFilter)
 
         self.H = ss.TransferFunction(self.num, self.den)
 
     def process_signal(self, input_signal):
         output_signal = Signal()
         output_signal.set_point_values(input_signal.tValues, input_signal.yValues)
-        output_signal.description = 'Output FAA' if self.filterName is 'FAA' else 'Output FR/Xout'
+        output_signal.description = 'Output FAA' if self.filterName == 'FAA' else 'Output FR/Xout'
 
         if self.isActive:
             output_signal.tValues, output_signal.yValues, dump = ss.lsim(self.H,

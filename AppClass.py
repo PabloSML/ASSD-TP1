@@ -21,19 +21,6 @@ class AppClass(QtWidgets.QWidget):
         self.ui.GraphsWidget.setCurrentIndex(0)
         self.hideAll()
 
-        # Testing
-        # test = Sampler()
-        # tValues = np.linspace(0, 1.1, 100000)
-        # cosin = Signal(tValues)
-        # cosin.gen_cosine(5, 5e3)
-        # cosin.analize_fft()
-        #
-        # samp = Signal(tValues)
-        # samp.gen_square(50, 50e3)
-        # test.set_sampling_signal(samp)
-        # test.set_input_signal(cosin)
-        # test.activate_awesome_magical_signal_processing()
-
         # MY STUFF: cosas que necesito instanciar externas a Qt
         self.createBodePlotsCanvas()
         self.plot_list = Stepper.plot_list_specs()
@@ -43,6 +30,7 @@ class AppClass(QtWidgets.QWidget):
         # EVENT HANDLER: acciones a partir de la UI
         self.ui.ComboBoxSignal.currentIndexChanged.connect(self.change_ParamInputs)
         self.ui.ButtonActualizar.clicked.connect(self.process_input)
+        self.ui.GraphsWidget.currentChanged.connect(self.manage_plot)
         #layouEtapas
         self.ui.CheckBoxFAAon.stateChanged.connect(lambda: self.toggleBypass('FAA'))
         self.ui.CheckBoxSHon.stateChanged.connect(lambda: self.toggleBypass('SH'))
@@ -146,7 +134,20 @@ class AppClass(QtWidgets.QWidget):
         canvas.draw()
 
     def espplot(self, axes, canvas):
-        pass
+        temp_list = list(zip(self.plot_list.all_together, self.dumpling.nodeList))  # [(['name','color','draw'],Signal), ... ]
+        for s in temp_list:
+            if s[0][2]: #draw flag
+                if s[0][1] is not None: #color var
+                    axes.plot(s[1].fValues, 2 / s[1].yValues.size * np.abs(s[1].ampValues[0:s[1].yValues.size // 2]), label=s[1].description, color=self.formatColor(s[0][1]))
+                else:
+                    axes.plot(s[1].fValues,2/s[1].yValues.size * np.abs(s[1].ampValues[0:s[1].yValues.size//2]))
+                    #plt.plot(xf, 2.0 / N * np.abs(yf[0:N // 2]))
+        axes.set_xscale('log')
+        axes.set_xlabel('f [Hz]')
+        axes.set_ylabel('Volt')
+        axes.legend(loc='best')
+        axes.grid()
+        canvas.draw()
 
 
     def createBodePlotsCanvas(self):
