@@ -39,6 +39,7 @@ class Filter(Block):
             output_signal.tValues, output_signal.yValues, dump = ss.lsim(self.H,
                                                       input_signal.yValues, input_signal.tValues)
                                                         # aplica filtro a señal todo transitorio?
+            output_signal.cut_first_period()
             # output_signal.set_point_values(out_tValues, out_yValues)
 
         output_signal.analize_fft()

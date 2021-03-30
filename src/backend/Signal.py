@@ -59,3 +59,10 @@ class Signal():
         # plt.plot(self.fValues, 2.0 / N * np.abs(self.ampValues[0:N // 2]))
         # plt.grid()
         # plt.show()
+
+    def cut_first_period(self):
+        if self.duty is None:
+            elements_per_period = 50000
+
+            for i in range(0, 10 * elements_per_period):
+                self.yValues[i] = self.yValues[i + 10 * elements_per_period]
