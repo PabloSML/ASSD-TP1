@@ -36,6 +36,10 @@ class Signal():
         self.tValues = new_tValues.copy()
         self.yValues = new_yValues.copy()
 
+    def set_spectral_values(self, new_fValues, new_ampValues):
+        self.fValues = new_fValues.copy()
+        self.ampValues = new_ampValues.copy()
+
     def gen_cosine(self, amp, freq_hz, phase=0):
 
         self.yValues = amp*np.cos(2 * np.pi * freq_hz * self.tValues + phase)
@@ -48,6 +52,14 @@ class Signal():
         self.frequency_hz = freq_hz
         self.duty = duty
         self.description = "Square wave with frec = " + str(freq_hz) + " and duty = " + str(duty) + "%"
+
+    def gen_3_2_sine(self, amp, freq_hz, phase=0):
+
+        self.yValues = np.empty(len(self.tValues))
+        temp_tValues = np.linspace(0, 15/(2*freq_hz), 50000)
+        temp_yValues = amp*np.sin(2*np.pi * (freq_hz/5) * temp_tValues + phase)
+        ind = np.arange(len(self.yValues))
+        np.put(self.yValues, ind, temp_yValues)
 
     def analize_fft(self):
 

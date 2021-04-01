@@ -43,7 +43,7 @@ class Sampler:
             elif input_signal_params['type'] == 'Cuadrada':
                 self.inputSignal.gen_square(input_signal_params['DC'], input_signal_params['f'])
             else: #caso 3/2 sen
-                pass
+                self.inputSignal.gen_3_2_sine(input_signal_params['V'], input_signal_params['f'], input_signal_params['phi'])
             self.inputSignal.analize_fft()
             self.nodeList[0] = self.inputSignal
 
