@@ -14,19 +14,19 @@ class Sampler:
         self.sampleAndHold = SampleAndHold()
         self.antiAliasFilter = Filter('FAA')
         self.recoveryFilter = Filter('FR')
-        self.blockChain = [self.antiAliasFilter, self.analogSwitch, self.sampleAndHold, self.recoveryFilter]
+        self.blockChain = [self.antiAliasFilter, self.sampleAndHold, self.analogSwitch, self.recoveryFilter]
         self.nodeList = [None, None, None, None, None]
 
     def toggle_FAA_active(self):
         self.antiAliasFilter.toggle_active()
         self.activate_awesome_magical_signal_processing()
 
-    def toggle_switch_active(self):
-        self.analogSwitch.toggle_active()
-        self.activate_awesome_magical_signal_processing(skip_to_block=1)
-
     def toggle_sh_active(self):
         self.sampleAndHold.toggle_active()
+        self.activate_awesome_magical_signal_processing(skip_to_block=1)
+
+    def toggle_switch_active(self):
+        self.analogSwitch.toggle_active()
         self.activate_awesome_magical_signal_processing(skip_to_block=2)
 
     def toggle_recov_active(self):
@@ -35,7 +35,7 @@ class Sampler:
 
     def set_input_signal(self, input_signal_params):
         if input_signal_params is not None:
-            temp_tValues = np.linspace(0, 20/input_signal_params['f'], 20*50000)
+            temp_tValues = np.linspace(0, 6/input_signal_params['f'], 6*50000)
             self.inputSignal.set_time_values(temp_tValues)
             self.samplingSignal.set_time_values(temp_tValues)
             if input_signal_params['type'] == 'Coseno':

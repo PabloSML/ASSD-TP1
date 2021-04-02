@@ -1,6 +1,6 @@
 from src.backend.Signal import Signal
 from src.backend.SignalControlled import SignalControlled
-
+import numpy as np
 
 class SampleAndHold(SignalControlled):
 
@@ -16,14 +16,26 @@ class SampleAndHold(SignalControlled):
             # out_tValues = input_signal.tValues.copy()
             # out_yValues = input_signal.yValues.copy()
 
-            for t_i in range(0, len(input_signal.tValues)):
-                if self.samplingSignal.yValues[t_i] > 0.5:
-                    output_signal.yValues[t_i] = input_signal.yValues[t_i]
-                else:
-                    if t_i > 0 and output_signal.yValues[t_i-1] is not None:
-                        output_signal.yValues[t_i] = output_signal.yValues[t_i-1]
-                    else:
-                        output_signal.yValues[t_i] = 0
+            # for t_i in range(0, len(input_signal.tValues)):
+            #     if self.samplingSignal.yValues[t_i] > 0.5:
+            #         output_signal.yValues[t_i] = input_signal.yValues[t_i]
+            #     else:
+            #         if t_i > 0 and output_signal.yValues[t_i-1] is not None:
+            #             output_signal.yValues[t_i] = output_signal.yValues[t_i-1]
+            #         else:
+            #             output_signal.yValues[t_i] = 0
+
+            hold_time = 1 / self.samplingSignal.frequency_hz
+            step_time = input_signal.tValues[1] - input_signal.tValues[0]
+
+            jump = max(1, int(np.round(hold_time / step_time, 0)))
+            output_signal.yValues = \
+                np.repeat(output_signal.yValues[::jump], jump)[: output_signal.yValues.size]
+            if output_signal.yValues.size < output_signal.tValues.size:
+                output_signal.yValues = np.append(output_signal.yValues,
+                                                  np.full(output_signal.tValues.size -
+                                                          output_signal.yValues.size,
+                                                          output_signal.yValues[-1]))
 
             # output_signal.set_point_values(out_tValues, out_yValues)
 

@@ -137,14 +137,14 @@ class AppClass(QtWidgets.QWidget):
         temp_list = list(zip(self.plot_list.all_together, self.dumpling.nodeList))  # [(['name','color','draw'],Signal), ... ]
         for s in temp_list:
             if s[0][2]: #draw flag
+                N = s[1].yValues.size
                 if s[0][1] is not None: #color var
-                    axes.plot(s[1].fValues, 2 / s[1].yValues.size * np.abs(s[1].ampValues[0:s[1].yValues.size // 2]), label=s[1].description, color=self.formatColor(s[0][1]))
+                    axes.plot(s[1].fValues[:N // 2], 2 / s[1].yValues.size * np.abs(s[1].ampValues[0:s[1].yValues.size // 2]), label=s[1].description, color=self.formatColor(s[0][1]))
                 else:
-                    axes.plot(s[1].fValues,2/s[1].yValues.size * np.abs(s[1].ampValues[0:s[1].yValues.size//2]))
-                    #plt.plot(xf, 2.0 / N * np.abs(yf[0:N // 2]))
+                    axes.plot(s[1].fValues[:N // 2], 2 / s[1].yValues.size * np.abs(s[1].ampValues[0:s[1].yValues.size // 2]), label=s[1].description)
         axes.set_xscale('log')
         axes.set_xlabel('f [Hz]')
-        axes.set_ylabel('Volt')
+        axes.set_ylabel('dBm')
         axes.legend(loc='best')
         axes.grid()
         canvas.draw()
