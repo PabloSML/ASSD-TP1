@@ -14,8 +14,9 @@ class Signal():
             self.duty = duty
             self.description = description
 
-            self.ampValues = None
             self.fValues = None
+            self.ampValues = None
+            self.dBmValues = None
 
     def duplicate_signal(self, target_signal):
 
@@ -68,9 +69,6 @@ class Signal():
         self.fValues = fftfreq(N, T)
         # [:N // 2]
 
-        # plt.plot(self.fValues, 2.0 / N * np.abs(self.ampValues[0:N // 2]))
-        # plt.grid()
-        # plt.show()
 
     def analize_ifft(self):
         self.yValues = ifft(self.ampValues)

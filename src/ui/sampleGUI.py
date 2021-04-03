@@ -10,6 +10,9 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+import os
+import ctypes.wintypes
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -234,7 +237,8 @@ class Ui_Form(object):
         self.ButtonColorFAA.setSizePolicy(sizePolicy)
         self.ButtonColorFAA.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("src/resources/assets/color.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        # icon.addPixmap(QtGui.QPixmap("src/resources/assets/color.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(os.getcwd() + '/assets/color.png'), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ButtonColorFAA.setIcon(icon)
         self.ButtonColorFAA.setObjectName("ButtonColorFAA")
         self.LayoutEtapas.addWidget(self.ButtonColorFAA, 2, 4, 1, 1)
@@ -492,7 +496,7 @@ class Ui_Form(object):
         self.label_10.setText(_translate("Form", "Etapas"))
         self.label_7.setText(_translate("Form", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600;\">X</span><span style=\" font-weight:600; vertical-align:sub;\">IN</span></p></body></html>"))
         self.label_12.setText(_translate("Form", "ON"))
-        self.label_9.setText(_translate("Form", "Dibujo"))
+        self.label_9.setText(_translate("Form", "Plot"))
         self.label_13.setText(_translate("Form", "   FAA"))
         self.label_11.setText(_translate("Form", "Color"))
         self.label_16.setText(_translate("Form", "<html><head/><body><p>   FR/X<span style=\" vertical-align:sub;\">OUT</span></p></body></html>"))

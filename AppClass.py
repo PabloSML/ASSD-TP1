@@ -1,15 +1,19 @@
 import sys
+import os
+import ctypes.wintypes
+
 from src.ui.sampleGUI import Ui_Form
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QColorDialog
+
+import numpy as np
+
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, \
     NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
+
 from src import Steps as Stepper
-from src.backend.Signal import Signal
 from src.backend.Sampler import Sampler
-import numpy as np
-import matplotlib.pyplot as plt
 
 class AppClass(QtWidgets.QWidget):
 
@@ -18,8 +22,16 @@ class AppClass(QtWidgets.QWidget):
 
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        self.setWindowTitle("Sampling Tool")
         self.ui.GraphsWidget.setCurrentIndex(0)
         self.hideAll()
+
+        # Icono
+        myappid = 'sampling tool'  # arbitrary string
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+        app_icon = QtGui.QIcon()
+        app_icon.addFile(os.getcwd() + '/assets/pcb.ico', QtCore.QSize(128, 128))
+        self.setWindowIcon(app_icon)
 
         # MY STUFF: cosas que necesito instanciar externas a Qt
         self.createBodePlotsCanvas()
@@ -127,8 +139,8 @@ class AppClass(QtWidgets.QWidget):
                     axes.plot(s[1].tValues, s[1].yValues, label=s[1].description, color=self.formatColor(s[0][1]))
                 else:
                     axes.plot(s[1].tValues, s[1].yValues, label=s[1].description)
-        axes.set_xlabel('Eje X')
-        axes.set_ylabel('Eje Y')
+        axes.set_xlabel('t [s]')
+        axes.set_ylabel('A [V]')
         axes.legend(loc='best')
 
         canvas.draw()
@@ -144,7 +156,7 @@ class AppClass(QtWidgets.QWidget):
                     axes.plot(s[1].fValues[:N // 2], 2 / s[1].yValues.size * np.abs(s[1].ampValues[0:s[1].yValues.size // 2]), label=s[1].description)
         axes.set_xscale('log')
         axes.set_xlabel('f [Hz]')
-        axes.set_ylabel('dBm')
+        axes.set_ylabel('A [V]')
         axes.legend(loc='best')
         axes.grid()
         canvas.draw()

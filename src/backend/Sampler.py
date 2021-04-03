@@ -3,7 +3,6 @@ from src.backend.SampleAndHold import SampleAndHold
 from src.backend.Filter import Filter
 from src.backend.Signal import Signal
 import numpy as np
-import matplotlib.pyplot as plt
 
 class Sampler:
 
@@ -56,10 +55,3 @@ class Sampler:
     def activate_awesome_magical_signal_processing(self, skip_to_block=0):
         for index in range(0 + skip_to_block, len(self.blockChain)):
             self.nodeList[index+1] = self.blockChain[index].process_signal(self.nodeList[index])
-
-         # for node in self.nodeList:
-         #     plt.plot(node.tValues, node.yValues)
-         #     plt.axis([1, 1+5e-4, -10, 10])
-         # plt.show()
-
-
