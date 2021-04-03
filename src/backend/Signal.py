@@ -1,7 +1,6 @@
 import numpy as np
 import scipy.signal as ss
 from scipy.fft import fft, fftfreq, ifft
-import matplotlib.pyplot as plt
 
 class Signal():
 
@@ -75,10 +74,3 @@ class Signal():
 
     def analize_ifft(self):
         self.yValues = ifft(self.ampValues)
-
-    # def cut_first_period(self):
-    #     if self.duty is None:
-    #         elements_per_period = 10000
-    #
-    #         for i in range(0, 10 * elements_per_period):
-    #             self.yValues[i] = self.yValues[i + 10 * elements_per_period]

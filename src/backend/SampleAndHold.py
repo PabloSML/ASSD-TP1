@@ -13,17 +13,6 @@ class SampleAndHold(SignalControlled):
         output_signal.description = 'Output Sample and Hold'
 
         if self.isActive:
-            # out_tValues = input_signal.tValues.copy()
-            # out_yValues = input_signal.yValues.copy()
-
-            # for t_i in range(0, len(input_signal.tValues)):
-            #     if self.samplingSignal.yValues[t_i] > 0.5:
-            #         output_signal.yValues[t_i] = input_signal.yValues[t_i]
-            #     else:
-            #         if t_i > 0 and output_signal.yValues[t_i-1] is not None:
-            #             output_signal.yValues[t_i] = output_signal.yValues[t_i-1]
-            #         else:
-            #             output_signal.yValues[t_i] = 0
 
             hold_time = 1 / self.samplingSignal.frequency_hz
             step_time = input_signal.tValues[1] - input_signal.tValues[0]
@@ -36,8 +25,6 @@ class SampleAndHold(SignalControlled):
                                                   np.full(output_signal.tValues.size -
                                                           output_signal.yValues.size,
                                                           output_signal.yValues[-1]))
-
-            # output_signal.set_point_values(out_tValues, out_yValues)
 
         output_signal.analize_fft()
         return output_signal
